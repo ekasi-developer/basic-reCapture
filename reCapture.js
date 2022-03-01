@@ -7,11 +7,16 @@
 			submit: "button[type=submit]"
 		}, options);
 	
+		// find reCapture input in form
 		var input = $(this).find(options.reCapture);
+		// find form submit button
 		var button = $(this).find(options.submit);
 		
 		// check if reCapture input exists.
 		if (input) {
+			// disable form submit button
+			button.attr("disabled", true);
+			
 		    // add reCapture value in input
 			$.fn.reCaptureAddValueInput(input);
 			
@@ -25,9 +30,6 @@
 					button.attr("disabled", true);
 				}
 			});
-			
-			// disable form submit button
-			button.attr("disabled", true);
 		}
 	};
 
@@ -46,13 +48,14 @@
 		$(input).attr("placeholder", $.fn.reCaptureValue());
 	};
 
+	$.fn.reCaptureEval = function(input) {
+		// remove equals to sign and evalaute the sum
+		return eval($(input).attr("placeholder").replace("=", ""));
+	};
+
 	$.fn.reCaptureValidate = function(input) {
-		var input = $(input);
-		var value = input.val();
-		// remove equals to sign for evaluation
-		var reCapture = input.attr("placeholder").replace("=", "");
-		// evaluate reCapture is equals into input value
-		return eval(reCapture) == value;
+		// check if reCapture evaluation is equal to input value
+		return $.fn.reCaptureEval(input) == $(input).val();
 	};
   
 }(jQuery));
